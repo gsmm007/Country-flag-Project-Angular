@@ -1,0 +1,30 @@
+<div *ngIf="currentCountryDetail">
+  <h2 class="align-country-heading">{{ currentCountryDetail.name.common }} Details</h2>
+  <table>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+    </tr>
+    <ng-container *ngFor="let prop of currentCountryProps">
+      <tr>
+        <td>{{ prop }}</td>
+        <td>
+          <ng-container *ngIf="isArray(currentCountryDetail[prop]); else objectCheck">
+
+            {{ currentCountryDetail[prop].join(', ') }}
+          </ng-container>
+          <ng-template #objectCheck>
+            <ng-container *ngIf="isObject(currentCountryDetail[prop]); else simpleValue">
+             <div *ngFor="let inner of displayObject(currentCountryDetail[prop])">
+                <strong>{{ inner.key }}:</strong> {{ inner.value }}
+              </div>
+            </ng-container>
+            <ng-template #simpleValue>
+              {{currentCountryDetail[prop] }}
+            </ng-template>
+          </ng-template>
+        </td>
+      </tr>
+    </ng-container>
+  </table>
+</div>
